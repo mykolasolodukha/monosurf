@@ -141,7 +141,13 @@ class BasePaycheckSchema(BaseModel):
     to_account_id: Annotated[str, Field(max_length=22, description="The ID of the account.")] | None = None
     to_jar_id: Annotated[str, Field(max_length=31, description="The ID of the jar.")] | None = None
 
-    amount: Annotated[int, Field(gt=0, description="The amount of the paycheck in the smallest currency unit.")]
+    amount: Annotated[
+        int,
+        Field(
+            gt=0,
+            description="The amount of the paycheck in the smallest currency unit.",
+        ),
+    ]
 
     comment: str | None = None
 
@@ -161,5 +167,6 @@ class PaycheckCreateResponseSchema(PaycheckCreateSchema):
     payment_link: Url
 
     is_paid: bool
+
 
 # endregion
