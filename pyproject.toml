@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "Python API wrapper for the mono.surf payment system"
 authors = ["Mykola Solodukha <mykola@mono.surf>"]
 readme = "README.md"
+packages = [
+    { include = "monosurf" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
