@@ -6,7 +6,7 @@ from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from pydantic_core import Url
 
-from settings import settings
+from .settings import settings
 
 
 # region Merchant schemas

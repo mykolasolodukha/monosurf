@@ -2,8 +2,8 @@
 
 import httpx
 
-from endpoints import Endpoint
-from schemas import (
+from .endpoints import Endpoint
+from .schemas import (
     MerchantApiKeySchema,
     MerchantCreateSchema,
     MerchantSchema,
@@ -14,7 +14,7 @@ from schemas import (
     PaycheckCreateResponseSchema,
     PaycheckCreateSchema,
 )
-from settings import settings
+from .settings import settings
 
 
 class MonosurfClient:
