@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "monosurf"
 version = "0.2.0"
-description = "Python API wrapper for the mono.surf payment system"
+description = "Python API wrapper for the mono.surf payment system."
 authors = ["Mykola Solodukha <mykola@mono.surf>"]
 readme = "README.md"
 license = "MIT"
