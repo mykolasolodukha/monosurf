@@ -9,8 +9,8 @@ from .schemas import (
     MonobankClientCreateSchema,
     MonobankClientSchema,
     MonobankJarSchema,
-    PaycheckCreateResponseSchema,
     PaycheckCreateSchema,
+    PaycheckSchema,
 )
 
 __all__ = [
@@ -23,5 +23,5 @@ __all__ = [
     "MonobankJarSchema",
     "MerchantApiKeySchema",
     "PaycheckCreateSchema",
-    "PaycheckCreateResponseSchema",
+    "PaycheckSchema",
 ]

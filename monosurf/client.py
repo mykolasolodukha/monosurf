@@ -1,5 +1,9 @@
 """The `MonosurfClient`."""
 
+from string import Template
+from typing import Any
+from uuid import UUID
+
 import httpx
 
 from .endpoints import Endpoint
@@ -11,8 +15,8 @@ from .schemas import (
     MonobankClientCreateSchema,
     MonobankClientSchema,
     MonobankJarSchema,
-    PaycheckCreateResponseSchema,
     PaycheckCreateSchema,
+    PaycheckSchema,
 )
 from .settings import settings
 
@@ -27,19 +31,22 @@ class MonosurfClient:
         self._session = httpx.AsyncClient(headers={settings.API_KEY_HEADER_NAME: api_key})
 
     # region Syntax sugar
-    async def _request(self, method: str, url: Endpoint, **kwargs) -> dict:
+    async def _request(self, method: str, url: Endpoint, url_params: dict[str, Any] | None = None, **kwargs) -> dict:
         """Make a request to the given `url` with the given `method`."""
-        response = await self._session.request(method, f"{self.api_host}/{url.value.lstrip('/')}", **kwargs)
+        # Construct the URL and make the request
+        url = Template(url.value).safe_substitute(url_params or {})
+
+        response = await self._session.request(method, f"{self.api_host}/{url.lstrip('/')}", **kwargs)
         response.raise_for_status()
         return response.json()
 
-    async def _get(self, url: Endpoint, **kwargs) -> dict:
+    async def _get(self, url: Endpoint, url_params: dict[str, Any] | None = None, **kwargs) -> dict:
         """Make a GET request to the given `url`."""
-        return await self._request("GET", url, **kwargs)
+        return await self._request("GET", url, url_params=url_params, **kwargs)
 
-    async def _post(self, url: Endpoint, **kwargs) -> dict:
+    async def _post(self, url: Endpoint, url_params: dict[str, Any] | None = None, **kwargs) -> dict:
         """Make a POST request to the given `url`."""
-        return await self._request("POST", url, **kwargs)
+        return await self._request("POST", url, url_params=url_params, **kwargs)
 
     # endregion
 
@@ -49,7 +56,7 @@ class MonosurfClient:
 
     async def get_merchant_by_id(self, merchant_id: int) -> MerchantSchema:
         """Get the merchant by the given `merchant_id`. Available only for admins."""
-        return MerchantSchema(**await self._get(Endpoint.GET_MERCHANT_BY_ID, params={"merchant_id": merchant_id}))
+        return MerchantSchema(**await self._get(Endpoint.GET_MERCHANT_BY_ID, url_params={"merchant_id": merchant_id}))
 
     async def create_merchant(self, merchant: MerchantCreateSchema) -> MerchantSchema:
         """Create a new merchant. Available only for admins."""
@@ -84,6 +91,10 @@ class MonosurfClient:
             for api_key in await self._get(Endpoint.GET_API_KEYS, params={"merchant_id": merchant_id})
         ]
 
-    async def create_paycheck(self, paycheck: PaycheckCreateSchema) -> PaycheckCreateResponseSchema:
+    async def create_paycheck(self, paycheck: PaycheckCreateSchema) -> PaycheckSchema:
         """Create a new paycheck."""
-        return PaycheckCreateResponseSchema(**await self._post(Endpoint.CREATE_PAYCHECK, json=paycheck.model_dump()))
+        return PaycheckSchema(**await self._post(Endpoint.CREATE_PAYCHECK, json=paycheck.model_dump()))
+
+    async def get_paycheck(self, paycheck_id: UUID) -> PaycheckSchema:
+        """Get the paycheck by the given `paycheck_id`."""
+        return PaycheckSchema(**await self._get(Endpoint.GET_PAYCHECK, url_params={"paycheck_id": paycheck_id}))

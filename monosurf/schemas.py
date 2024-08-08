@@ -159,8 +159,8 @@ class PaycheckCreateSchema(BasePaycheckSchema):
     """The schema for a paycheck creation request."""
 
 
-class PaycheckCreateResponseSchema(PaycheckCreateSchema):
-    """The schema for a paycheck creation response."""
+class PaycheckSchema(PaycheckCreateSchema):
+    """The schema for a Paycheck."""
 
     id: UUID
 

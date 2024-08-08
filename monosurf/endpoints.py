@@ -9,7 +9,7 @@ class Endpoint(str, Enum):
     GET_ME = "/merchants/me"
     CREATE_MERCHANT = "/merchants/create"
 
-    GET_MERCHANT_BY_ID = "/merchants/{merchant_id}"
+    GET_MERCHANT_BY_ID = "/merchants/${merchant_id}"
 
     GET_MONOBANK_CLIENTS = "/monobank/clients"
     CREATE_MONOBANK_CLIENT = "/monobank/clients/create"
@@ -22,3 +22,4 @@ class Endpoint(str, Enum):
     CREATE_API_KEY = "/api-keys/create"
 
     CREATE_PAYCHECK = "/paychecks/create"
+    GET_PAYCHECK = "/paychecks/${paycheck_id}"
