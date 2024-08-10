@@ -15,5 +15,7 @@ class Settings(BaseSettings):
 
     DEFAULT_COMMENT: str | None = None
 
+    HTTPX_TIMEOUT: int = 60
+
 
 settings = Settings()

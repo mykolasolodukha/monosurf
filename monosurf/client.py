@@ -28,7 +28,9 @@ class MonosurfClient:
         """Initialize the `MonosurfClient` with the given `api_key`."""
         self.api_host = "https://api.mono.surf"
 
-        self._session = httpx.AsyncClient(headers={settings.API_KEY_HEADER_NAME: api_key})
+        self._session = httpx.AsyncClient(
+            headers={settings.API_KEY_HEADER_NAME: api_key}, timeout=settings.HTTPX_TIMEOUT
+        )
 
     # region Syntax sugar
     async def _request(self, method: str, url: Endpoint, url_params: dict[str, Any] | None = None, **kwargs) -> dict:
