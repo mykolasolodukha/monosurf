@@ -24,9 +24,9 @@ from .settings import settings
 class MonosurfClient:
     """The `MonosurfClient`."""
 
-    def __init__(self, api_key: str):
-        """Initialize the `MonosurfClient` with the given `api_key`."""
-        self.api_host = "https://api.mono.surf"
+    def __init__(self, api_key: str, api_host: str = "https://api.mono.surf"):
+        """Initialize the `MonosurfClient` with the given `api_key`, optionally pointed at another API server through `api_host`."""
+        self.api_host = api_host.rstrip("/")
 
         self._session = httpx.AsyncClient(
             headers={settings.API_KEY_HEADER_NAME: api_key}, timeout=settings.HTTPX_TIMEOUT
