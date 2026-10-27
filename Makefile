@@ -41,6 +41,10 @@ bump-patch:
 	poetry version patch
 	$(MAKE) commit_version
 
+.PHONY: publish
+publish:
+	poetry publish --build
+
 
 .PHONY: setup
 setup:
